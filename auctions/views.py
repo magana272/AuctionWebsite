@@ -4,14 +4,16 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from psutil import users
 
 from .models import User, Bid, Listing, Comment
 
 
 def index(request):
-    # if not request.user.is_authenticated:
-    #     return HttpResponseRedirect('login')
-    return render(request, "auctions/index.html")
+    images = map(lambda x: x.image, Listing.objects.all())
+    print(request.user)
+    return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images}
+    )
 
 
 def login_view(request):
@@ -24,7 +26,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("auctions:index"))
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
@@ -35,7 +37,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("auctions:index"))
 
 
 def register(request):
@@ -60,6 +62,6 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("auctions:index"))
     else:
         return render(request, "auctions/register.html")

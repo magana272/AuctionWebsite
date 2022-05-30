@@ -1,3 +1,7 @@
 body {
-    padding: 10px;
+    padding: 20px;
+}
+img.resize {
+    width:540px; /* you can use % */
+    height: auto;
 }
