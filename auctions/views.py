@@ -1,18 +1,23 @@
 import re
+from unicodedata import name
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from psutil import users
+from django.contrib.auth.decorators import login_required
 
-from .models import User, Bid, Listing, Comment
+
+from .models import Like, User, Bid, Listing, Comment
 
 
 def index(request):
     images = map(lambda x: x.image, Listing.objects.all())
-    print(request.user)
-    return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images}
+    try : 
+        like_list = list(map(lambda x : x.post.id, Like.objects.filter(user = request.user)))
+    except:
+        like_list = []
+    return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images, "userlikes":like_list}
     )
 
 
@@ -65,3 +70,45 @@ def register(request):
         return HttpResponseRedirect(reverse("auctions:index"))
     else:
         return render(request, "auctions/register.html")
+@login_required
+def like_view(request, listing_id):
+    if request.method == "POST":
+        listing_finder = Listing.objects.get(pk=listing_id)
+        try : 
+            like_exist = Like.objects.get(user = request.user, post = listing_finder)
+        except:
+            like_exist = None
+        if like_exist is None:
+            newlike = Like(post=listing_finder, user = request.user, liked = True)
+            newlike.save()
+            listing_finder.likes +=1
+            listing_finder.save()
+            return HttpResponseRedirect(reverse("auctions:index"))
+    return HttpResponseRedirect(reverse("auctions:index"))
+@login_required
+def unlike_view(request, listing_id):
+    if request.method == "POST":
+        listing_finder = Listing.objects.get(pk=listing_id)
+        try : 
+            like_exist = Like.objects.get(user = request.user, post = Listing.objects.get(pk=listing_id))
+            print(like_exist)
+        except:
+            like_exist = None
+        print(like_exist)
+        if like_exist is not None:
+            print("we made it here")
+            listing_finder = Listing.objects.get(pk=listing_id)
+            listing_finder.likes -=1
+            listing_finder.save()
+            like_exist.delete()
+            return HttpResponseRedirect(reverse("auctions:index"))
+    return HttpResponseRedirect(reverse("auctions:index"))
+def page_view(request,listing_id):
+    listing = Listing.objects.get(pk =listing_id)
+    return render(request, "auctions/page.html", {"listing":listing})
+
+def addPage_view(request,listing_id):
+    ...
+def addComment_view(request,listing_id):
+    ...
+

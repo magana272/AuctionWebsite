@@ -7,13 +7,28 @@
     {% for listing in  listings %}
         {% if forloop.first %}<div class="row">{% endif %}
         <div class="col">
-            <div>
-                <a href="#">
-                    <img width="300" src="{{listing.image}}" alt="{{listing.image}}">
-                </a>
+            <div class = "hovereffect">
+                <a href = "{%url 'auctions:page' listing.id%} ">
+                <img class="img-responsive" width="300" src={%meida "/"%}{{listing.image}}" alt="{{listing.image}}">
             </div>
             <div>
-            <a href=#>Likes: {{listing.likes}} </a>
+                <div class="row">
+                    <div class="col-6">
+                            <text>Likes: {{listing.likes}}<text>
+                     </div>
+                    <div class="col-6">
+                        {%if listing.id in userlikes%}
+                        <form action = "{%url 'auctions:unlike' listing.id%}" method = "POST">
+                            {% csrf_token %}
+                        <input type="submit" name = {{listing}} value = "Liked">
+                        {% else %}
+                        <form action = "{%url 'auctions:like' listing.id%}" method = "POST">
+                            {% csrf_token %}
+                        <input type="submit" name = {{listing}} value = "Like" >
+                        {% endif %}
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}

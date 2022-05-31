@@ -13,7 +13,7 @@ class Listing(models.Model):
     catagory  = models.CharField(max_length=50)
     price =  models.FloatField()
     description = models.TextField()
-    image = models.ImageField(upload_to = 'auctions/static/auctions/images')
+    image = models.ImageField(upload_to = 'auctions/images')
     def __str__(self)-> str:
         return f"Item Name:{self.itemName}, Created By:{self.poster}, Price: {self.price}"
 class Bid(models.Model):
@@ -31,7 +31,7 @@ class Comment(models.Model):
 class Like(models.Model):
     post = models.ForeignKey(Listing, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    liked = models.BooleanField()
+    liked = models.BooleanField(default=False)
     def __str__(self)->str:
         return f"{self.user} liked {self.post}"
 

@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block title %}
+{{Listing.itemName}}
+
+{% endblock title %}
+{% block body %}
+{%if listing%}
+<div class = "container-fluid center">
+    <div class = "row">
+        <div class = "col">
+            <img class="img-responsive" width="500" src="{% static '/'%}{{listing.image}}" alt="{{listing.itemName}}">
+        </div>
+        <div class = "row">
+            <ul> 
+            <li> {{listing.catagory}}</li>
+            <li> {{listing.itemName}}</li>
+            <li> {{listing.price}}</li>
+            <li> {{listing.poster}}</li>
+            </ul>
+        </div>
+    <div class = "row">
+        <div class  = "col">
+            <form>
+                <textarea name = "comment">
+            </form>
+    {% if commments %}
+        {% for comment in comments%}
+        <div class = "row">
+            <div class = "col">
+            <comment>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p> No comments<p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock body %}
+
+
