@@ -1,42 +1,49 @@
 {% extends "auctions/layout.html" %}
 {% load static %}
 {% block title %}
-{{Listing.itemName}}
-
+{{listing.itemName}}
 {% endblock title %}
 {% block body %}
 {%if listing%}
-<div class = "container-fluid center">
+<div class = "container">
     <div class = "row">
         <div class = "col">
             <img class="img-responsive" width="500" src="{% static '/'%}{{listing.image}}" alt="{{listing.itemName}}">
         </div>
-        <div class = "row">
-            <ul> 
-            <li> {{listing.catagory}}</li>
-            <li> {{listing.itemName}}</li>
-            <li> {{listing.price}}</li>
-            <li> {{listing.poster}}</li>
+        <div class = "col justify-content-center">
+            <h1>{{listing.itemName}}</h1>
+            <ul class="list-group list-group-flush "> 
+            <li class="list-group-item"> Catagory: {{listing.catagory}}</li>
+            <li class="list-group-item"> Item Name: {{listing.itemName}}</li>
+            <li class="list-group-item"> Price: ${{listing.price}}</li>
+            <li class="list-group-item"> Posted by: {{listing.poster}}</li>
+            <li class= "list-group-item"> Created on: {{listing.date}}</li>
             </ul>
         </div>
-    <div class = "row">
-        <div class  = "col">
-            <form>
-                <textarea name = "comment">
-            </form>
-    {% if commments %}
-        {% for comment in comments%}
-        <div class = "row">
-            <div class = "col">
-            <comment>
-        </div>
-        {% endfor %}
-    {% else %}
-        <p> No comments<p>
-    {% endif %}
 </div>
 {% endif %}
-
+<div class ="container-flex">
+            <div class="form-group">
+                <form   action = "{%url 'auctions:unlike' listing.id%}" method = "POST">
+                    {% csrf_token %}
+                 <textarea  class="form-control" name = "comment" rows="3" cols="100" placeholder = "Commment"> </textarea>
+                <input type="submit" name = {{listing}} value = "Submit">
+                </form>
+            </div>
+{% comment %}  {% endcomment %}
+    {% if commments %}
+        {% for comment in comments%}
+         <div class = "row">
+                <div class = "col">
+                    <comment>
+                </div>
+        {% endfor %}
+    {% else %}
+    <div class = "row">
+        <div class  = "col">
+        <p> No comments<p>
+    </div>
+    {% endif %}
 {% endblock body %}
 
 

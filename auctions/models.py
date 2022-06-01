@@ -1,6 +1,9 @@
+from pickle import TRUE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.files.storage import FileSystemStorage
+import datetime
+
 class User(AbstractUser):
     first  = models.CharField(max_length=50)
     last   = models.CharField(max_length=65)
@@ -13,6 +16,7 @@ class Listing(models.Model):
     catagory  = models.CharField(max_length=50)
     price =  models.FloatField()
     description = models.TextField()
+    date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
     image = models.ImageField(upload_to = 'auctions/images')
     def __str__(self)-> str:
         return f"Item Name:{self.itemName}, Created By:{self.poster}, Price: {self.price}"
@@ -26,6 +30,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Listing, on_delete=models.CASCADE)
     placeby = models.ForeignKey(User,on_delete=models.CASCADE)   
     comment = models.TextField()
+    time = models.TimeField(auto_now=True)
     def __str__(self)->str:
         return f"{self.placeby} commeneted{self.comment} on {self.post}"
 class Like(models.Model):

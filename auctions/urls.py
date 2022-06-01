@@ -14,6 +14,5 @@ urlpatterns = [
     path("addPage_view/<int:listing_id", views.addPage_view, name= "add"),
     path("addcomment_view/<int:listing_id>", views.addComment_view, name= "comment")
 ]
-if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
+urlpatterns += static(settings.MEDIA_URL,
                               document_root=settings.MEDIA_ROOT)
