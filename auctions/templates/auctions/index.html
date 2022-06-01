@@ -13,18 +13,18 @@
             </div>
             <div>
                 <div class="row justify-content-center">
-                    <div class="col-3">
-                            <text style ="color:black">Likes: {{listing.likes}}<text>
+                    <div class="col-3 " style = "text-align: center; padding: 6px 0;" >
+                        <text style ="color:black ; display: inline-block;"> Likes: {{listing.likes}} </text>
                      </div>
                     <div class="col-3">
                         {%if listing.id in userlikes%}
                         <form action = "{%url 'auctions:unlike' listing.id%}" method = "POST">
                             {% csrf_token %}
-                        <input type="submit" name = {{listing}} value = "Liked">
+                        <input type="submit" name = {{listing}} value = "Liked"  class="btn btn-dark" >
                         {% else %}
                         <form action = "{%url 'auctions:like' listing.id%}" method = "POST">
                             {% csrf_token %}
-                        <input type="submit" name = {{listing}} value = "Like" >
+                        <input type="submit" name = {{listing}} value = "Like"  class="btn btn-dark">
                         {% endif %}
                         </form>
                     </div>

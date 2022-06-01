@@ -107,8 +107,8 @@ def page_view(request,listing_id):
     listing = Listing.objects.get(pk =listing_id)
     return render(request, "auctions/page.html", {"listing":listing})
 
-def addPage_view(request,listing_id):
-    ...
+def addListing_view(request):
+    return render(request, "auctions/addlisting.html")
 def addComment_view(request,listing_id):
     ...
 
