@@ -1,3 +1,4 @@
+from gettext import Catalog
 from pickle import TRUE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -18,6 +19,7 @@ class Listing(models.Model):
     description = models.TextField()
     date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
     image = models.ImageField(upload_to = 'auctions/images')
+    catagory  = models.CharField(max_length=20)
     def __str__(self)-> str:
         return f"Item Name:{self.itemName}, Created By:{self.poster}, Price: {self.price}"
 class Bid(models.Model):

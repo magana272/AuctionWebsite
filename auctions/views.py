@@ -7,17 +7,21 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+import auctions
+
 
 from .models import Like, User, Bid, Listing, Comment
 
 
 def index(request):
     images = map(lambda x: x.image, Listing.objects.all())
+    cats = ["Hoodies", "Shirt", "Pant", "Hat", "Electronic"]
     try : 
         like_list = list(map(lambda x : x.post.id, Like.objects.filter(user = request.user)))
     except:
         like_list = []
-    return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images, "userlikes":like_list}
+
+    return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images, "userlikes":like_list, "cats" :cats}
     )
 
 
@@ -108,7 +112,14 @@ def page_view(request,listing_id):
     return render(request, "auctions/page.html", {"listing":listing})
 
 def addListing_view(request):
-    return render(request, "auctions/addlisting.html")
+    cats = ["Hoodies", "Shirt", "Pant", "Hat", "Electronic", "Boards"]
+    if request.method  == "POST":
+        new_ = Listing(itemName = request.POST["itemName"], catagory = request.POST["Catagory"], price = request.POST["cost"], image = request.POST["image"])
+        new_.save()
+        return HttpResponseRedirect(reverse("auctions:index"))
+    return render(request, "auctions/addlisting.html", {"cats": cats})
 def addComment_view(request,listing_id):
     ...
+def watchlist(request):
+    return render(request, "auctions/watchlist.html")
 

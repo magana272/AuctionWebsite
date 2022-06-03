@@ -1,7 +1,23 @@
 {% extends "auctions/layout.html" %}
 {% load static %}
 {% block body %}
-    <h2>Active Listings</h2>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-12">
+                <h2>Active Listings</h2>
+            </div>
+        <div class = "col">
+            <form action = "{%url 'auctions:index'%}" method == "POST">
+                <select>
+                    {% for cat in cats %}
+                    <option type="submit" name = "{{cat}}">{{cat}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Search" class="myButton">
+            </form>
+        </div>
+    </div>
+</div>
     {%if listings%}
     <div class = "container-fluid align-items-lg-center" style="text-align:center">
     {% for listing in  listings %}
@@ -17,14 +33,19 @@
                         <text style ="color:black ; display: inline-block;"> Likes: {{listing.likes}} </text>
                      </div>
                     <div class="col-3">
-                        {%if listing.id in userlikes%}
-                        <form action = "{%url 'auctions:unlike' listing.id%}" method = "POST">
-                            {% csrf_token %}
-                        <input type="submit" name = {{listing}} value = "Liked"  class="btn btn-dark" >
+                        {% if user.is_authenticated %}
+                            {%if listing.id in userlikes%}
+                            <form action = "{%url 'auctions:unlike' listing.id%}" method = "POST">
+                                {% csrf_token %}
+                            <input type="submit" name = {{listing}} value = "Liked"  class="btn btn-dark" >
+                            {% else %}
+                            <form action = "{%url 'auctions:like' listing.id%}" method = "POST">
+                                {% csrf_token %}
+                            <input type="submit" name = {{listing}} value = "Like"  class="btn btn-dark">
+                            {% endif %}
                         {% else %}
-                        <form action = "{%url 'auctions:like' listing.id%}" method = "POST">
-                            {% csrf_token %}
-                        <input type="submit" name = {{listing}} value = "Like"  class="btn btn-dark">
+                            <form action = "{%url 'auctions:login'%}">
+                            <input type="submit" name = {{listing}} value = "Like"  class="btn btn-dark">
                         {% endif %}
                         </form>
                     </div>
@@ -34,6 +55,7 @@
     {% endfor %}
         </div>
     {% endif %}
+
 {% endblock %}
 
 
