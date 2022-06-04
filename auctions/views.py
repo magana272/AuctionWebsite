@@ -1,3 +1,4 @@
+from nis import cat
 import re
 from unicodedata import name
 from django.contrib.auth import authenticate, login, logout
@@ -6,21 +7,21 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
-import auctions
-
-
 from .models import Like, User, Bid, Listing, Comment
 
 
 def index(request):
     images = map(lambda x: x.image, Listing.objects.all())
-    cats = ["Hoodies", "Shirt", "Pant", "Hat", "Electronic"]
+    cats = ["Hoodies", "Shirt", "Pant", "Hat", "Electronic", "Boards"]
     try : 
         like_list = list(map(lambda x : x.post.id, Like.objects.filter(user = request.user)))
     except:
         like_list = []
-
+    if request.method == "GET" and "cat" in request.GET:
+        cat = request.GET["cat"]
+        if cat == "All":
+            return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images, "userlikes":like_list, "cats" :cats})
+        return render(request, "auctions/index.html", {"listings": Listing.objects.filter(catagory = cat), "images":images, "userlikes":like_list, "cats" :cats})
     return render(request, "auctions/index.html", {"listings": Listing.objects.all(), "images":images, "userlikes":like_list, "cats" :cats}
     )
 
@@ -28,10 +29,12 @@ def index(request):
 def login_view(request):
     if request.method == "POST":
         # Attempt to sign user in
+
         username = request.POST["username"]
         password = request.POST["password"]
+        print(username)
+        print(password)
         user = authenticate(request, username=username, password=password)
-
         # Check if authentication successful
         if user is not None:
             login(request, user)
@@ -64,7 +67,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username = username, email = email, password =password)
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
@@ -114,12 +117,22 @@ def page_view(request,listing_id):
 def addListing_view(request):
     cats = ["Hoodies", "Shirt", "Pant", "Hat", "Electronic", "Boards"]
     if request.method  == "POST":
-        new_ = Listing(itemName = request.POST["itemName"], catagory = request.POST["Catagory"], price = request.POST["cost"], image = request.POST["image"])
+        print("user:")
+        print(request.user.username)
+        print("\n")
+        print(f"users : {User.objects.filter(username=request.user.username)}")
+        print("\n")
+        print("\n")
+        new_ = Listing(itemName = request.POST["itemName"], catagory = request.POST["Catagory"], price = request.POST["cost"], image = request.FILES["image"], description = request.POST["description"], poster = User.objects.get(pk=request.user.id))
+        print(new_)
         new_.save()
-        return HttpResponseRedirect(reverse("auctions:index"))
+        return render(request, "auctions/addlisting.html", {"cats": cats})
     return render(request, "auctions/addlisting.html", {"cats": cats})
 def addComment_view(request,listing_id):
     ...
 def watchlist(request):
     return render(request, "auctions/watchlist.html")
-
+def profileView(request):
+    listings = Listing.objects.filter(poster= request.user)
+    print(listings)
+    return render(request,"auctions/profile.html", {"listings":listings})

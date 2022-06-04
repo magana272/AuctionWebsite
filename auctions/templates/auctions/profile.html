@@ -1,0 +1,44 @@
+{% extends 'auctions/layout.html'%}
+{% load static %}
+
+{% block title %}{{request.user}}{% endblock title %}
+{% block body %}
+<h1> {{request.user}}</h1>
+{% if listings%}
+    
+        
+    {% for listing in listings %}
+    <div class= "container"> 
+        <div class = "row">
+            <div class = "col">
+                <img  width="300" src="{% static '/'%}{{listing.image}}" > 
+            </div>
+            <div class = "col-5">
+                <ul class="list-group  "> 
+                    <li class="list-group-item"> Catagory: {{listing.catagory}}</li>
+                    <li class="list-group-item"> Item Name: {{listing.itemName}}</li>
+                    <li class="list-group-item"> Price: ${{listing.price}}</li>
+                    <li class="list-group-item"> Posted by: {{listing.poster}}</li>
+                    <li class= "list-group-item"> Created on: {{listing.date}}</li>
+                </ul>
+            </div>
+            <div class = "col">
+                    <form>
+                        <input type = "submit" class = "btn btn-danger" value="Edit"> 
+                    </form>
+            </div>
+            <div class = "col-1">
+                <form>
+                    <input type = "Edit" class = "btn btn-danger" value="Delete"> 
+                </form>   
+            </div>            
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% else %}
+        <h2> You've adding no listing </h2>
+{% endif %}
+
+{% endblock body %}

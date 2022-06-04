@@ -33,7 +33,7 @@
                         <a class="nav-link" href="{% url 'auctions:logout' %}">Log Out</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">{{request.user.username.capitalize}}</a>
+                        <a class="nav-link" href="{%url 'auctions:profile'%}">{{request.user.username.capitalize}}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">

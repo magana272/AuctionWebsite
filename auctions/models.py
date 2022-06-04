@@ -8,6 +8,9 @@ import datetime
 class User(AbstractUser):
     first  = models.CharField(max_length=50)
     last   = models.CharField(max_length=65)
+    username = models.CharField(max_length=65, unique=True)
+    email = models.EmailField( max_length=254)
+    
     def __str__(self)->str:
         return f"{self.first} {self.last}"
 class Listing(models.Model):
@@ -19,7 +22,6 @@ class Listing(models.Model):
     description = models.TextField()
     date = models.DateTimeField(default=datetime.datetime.now(), blank=True)
     image = models.ImageField(upload_to = 'auctions/images')
-    catagory  = models.CharField(max_length=20)
     def __str__(self)-> str:
         return f"Item Name:{self.itemName}, Created By:{self.poster}, Price: {self.price}"
 class Bid(models.Model):
@@ -41,6 +43,13 @@ class Like(models.Model):
     liked = models.BooleanField(default=False)
     def __str__(self)->str:
         return f"{self.user} liked {self.post}"
+
+class Image(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='images')
+
+    def __str__(self):
+        return self.title
 
 1
 

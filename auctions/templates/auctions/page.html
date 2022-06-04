@@ -8,7 +8,7 @@
 <div class = "container">
     <div class = "row">
         <div class = "col">
-            <img class="img-responsive" width="500" src="{% static '/'%}{{listing.image}}" alt="{{listing.itemName}}">
+            <img width="500" src="{% static '/'%}{{listing.image}}" alt="{{listing.itemName}}">
         </div>
         <div class = "col justify-content-center">
             <h1>{{listing.itemName}}</h1>
@@ -16,7 +16,7 @@
             <li class="list-group-item"> Catagory: {{listing.catagory}}</li>
             <li class="list-group-item"> Item Name: {{listing.itemName}}</li>
             <li class="list-group-item"> Price: ${{listing.price}}</li>
-            <li class="list-group-item"> Posted by: {{listing.poster}}</li>
+            <li class="list-group-item"> Posted by: {{listing.poster.username}}</li>
             <li class= "list-group-item"> Created on: {{listing.date}}</li>
             </ul>
 

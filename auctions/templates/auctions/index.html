@@ -7,13 +7,14 @@
                 <h2>Active Listings</h2>
             </div>
         <div class = "col">
-            <form action = "{%url 'auctions:index'%}" method == "POST">
-                <select>
+            <form action = "{%url 'auctions:index'%}" method == "GET" name = "cat">
+                    <select class = "form-select" name ="cat">
+                    <option type="submit" name = "cat">All</option>
                     {% for cat in cats %}
-                    <option type="submit" name = "{{cat}}">{{cat}}</option>
+                    <option type="submit" name = "cat">{{cat}}</option>
                     {% endfor %}
                 </select>
-                <input type="submit" value="Search" class="myButton">
+                <input type="submit" value="Search" class="myButton" name = "submit">
             </form>
         </div>
     </div>
