@@ -21,14 +21,17 @@
             </ul>
 
             <div class="row">
-                <div class="col-md-3">
-                    <h2>Highest Bid : {}</h2>
-                        
+                <div class="col justify-content-center">
+                    <h2>Highest Bid: {% if higestbid %} {{highestbid}}{% else %} No Current Bids{% endif %}
+                    </h2>
                 </div>
-                <div class="col-md-6">
-                    <label for="curreny">Zip</label>
-                    <input type="number" class="form-control" id="inputZip">
-                </div>
+                <div class="col">
+                <label for="curreny">Bid</label>
+                <form action = "{% url 'auctions:placeBid' listing.id %}" method = 'POST'>
+                    {% csrf_token %}
+                        <input type="number" min="0" max = "{{listing.price}}" name = "bid" required>
+                        <input type="Submit" class="btn-danger" value = "Place Bid">
+                 </form>
             </div>
         </div>
 </div>

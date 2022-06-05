@@ -18,7 +18,7 @@
                     <li class="list-group-item"> Catagory: {{listing.catagory}}</li>
                     <li class="list-group-item"> Item Name: {{listing.itemName}}</li>
                     <li class="list-group-item"> Price: ${{listing.price}}</li>
-                    <li class="list-group-item"> Posted by: {{listing.poster}}</li>
+                    <li class="list-group-item"> Posted by: {{listing.poster.username}}</li>
                     <li class= "list-group-item"> Created on: {{listing.date}}</li>
                 </ul>
             </div>
@@ -28,8 +28,9 @@
                     </form>
             </div>
             <div class = "col-1">
-                <form>
-                    <input type = "Edit" class = "btn btn-danger" value="Delete"> 
+                <form action = "{% url 'auctions:deleteListing' listing.id %}" method = "Delete">
+                    {% csrf_token %}
+                    <input type = "submit" class = "btn btn-danger" value="Delete"> 
                 </form>   
             </div>            
             </div>

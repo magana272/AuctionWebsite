@@ -14,7 +14,9 @@ urlpatterns = [
     path("addlisting",views.addListing_view, name="addlisting"),
     path("addcomment_view/<int:listing_id>", views.addComment_view, name= "comment"),
     path("watchlist",views.watchlist, name = "watchlist"),
-    path("profile", views.profileView,name= "profile")
+    path("profile", views.profileView,name= "profile"),
+    path("deleteListing/<int:listingID>",views.deleteListing_view, name="deleteListing"),
+    path("placeBidView/<int:listingID>", views.placeBidView, name= "placeBid")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
