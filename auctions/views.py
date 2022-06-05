@@ -1,8 +1,4 @@
-from nis import cat
-import re
-from time import sleep
-from typing import List
-from unicodedata import name
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -113,14 +109,14 @@ def page_view(request,listing_id):
     listing = Listing.objects.get(pk =listing_id)
     try:
         highestbid = max(list(map(lambda x : x.bidPrice ,Bid.objects.filter(listing = listing))))
-        try: 
-            comments = Comment.objects.filter(post=listing).order_by('time').reverse()
-            return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid, "comments":comments})
-        except :
-            return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid})
-
     except:
-        return render(request, "auctions/page.html", {"listing":listing})
+        highestbid = "No currentbids"   
+    try: 
+        comments = Comment.objects.filter(post=listing)
+    except :
+        comments = "No commentssss"        
+    return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid, "comments":comments})
+
 
 def addListing_view(request):
     if request.method  == "POST":
