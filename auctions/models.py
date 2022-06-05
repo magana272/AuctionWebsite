@@ -21,7 +21,7 @@ class Listing(models.Model):
     catagory  = models.CharField(max_length=50)
     price =  models.FloatField()
     description = models.TextField()
-    date = models.DateTimeField(default=timezone.now)
+    # date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(upload_to = 'auctions/images')
     def __str__(self)-> str:
         return f"Item Name:{self.itemName}, Created By:{self.poster}, Price: {self.price}"
@@ -35,7 +35,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Listing, on_delete=models.CASCADE)
     placeby = models.ForeignKey(User,on_delete=models.CASCADE)   
     comment = models.TextField()
-    time = models.DateTimeField(default=timezone.now)
+    # time = models.DateTimeField(default=timezone.now)
     def __str__(self)->str:
         return f"{self.placeby} commeneted{self.comment} on {self.post}"
 class Like(models.Model):
