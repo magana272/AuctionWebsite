@@ -13,10 +13,10 @@ from django.contrib.auth.decorators import login_required
 import auctions
 from .models import Like, User, Bid, Listing, Comment
 
-cats = ["Hoodies", "Shirts", "Pants", "Hats", "Electronics", "Skateboards","Accecoires", "Shoes"]
+cats = ["Hoodies", "Shirts", "Pants", "Hats", "Electronics", "Skateboards","Accessories", "Shoes"]
 def index(request):
     images = map(lambda x: x.image, Listing.objects.all())
-    cats = ["Hoodies", "Shirts", "Pants", "Hats", "Electronics", "Skateboards","Accecoires", "Shoes"]
+    cats = ["Hoodies", "Shirts", "Pants", "Hats", "Electronics", "Skateboards","Accessories", "Shoes"]
     try : 
         like_list = list(map(lambda x : x.post.id, Like.objects.filter(user = request.user)))
     except:
@@ -170,6 +170,7 @@ def buy(request,listingID):
     return render(request, "auctions/buy.html")
 
 def deleteComment_view(request,listingID,commentID):
+    
     Comment.objects.get(pk = commentID).delete()
     return HttpResponseRedirect(reverse("auctions:page", kwargs={'listing_id':listingID}))
 
