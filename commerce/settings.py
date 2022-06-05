@@ -124,5 +124,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'auctions/static/')
-
+import django_heroku
+django_heroku.settings(locals())
 
