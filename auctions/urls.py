@@ -16,7 +16,9 @@ urlpatterns = [
     path("watchlist",views.watchlist, name = "watchlist"),
     path("profile", views.profileView,name= "profile"),
     path("deleteListing/<int:listingID>",views.deleteListing_view, name="deleteListing"),
-    path("placeBidView/<int:listingID>", views.placeBidView, name= "placeBid")
+    path("placeBidView/<int:listingID>", views.placeBidView, name= "placeBid"),
+    path("buy/<int:listingID>", views.buy, name = "buy"),
+    path("deleteComment_view/<int:listingID>/<int:commentID>", views.deleteComment_view, name= "dcomment")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

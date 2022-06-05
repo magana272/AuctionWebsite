@@ -1,5 +1,6 @@
 from nis import cat
 import re
+from time import sleep
 from typing import List
 from unicodedata import name
 from django.contrib.auth import authenticate, login, logout
@@ -116,8 +117,12 @@ def unlike_view(request, listing_id):
 def page_view(request,listing_id):
     listing = Listing.objects.get(pk =listing_id)
     try:
-        highestbid = Bid.object.filter(listing = listing)
-        return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid})
+        highestbid = max(list(map(lambda x : x.bidPrice ,Bid.objects.filter(listing = listing))))
+        try: 
+            comments = Comment.objects.filter(post=listing).order_by('time').reverse()
+            return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid, "comments":comments})
+        except :
+            return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid})
 
     except:
         return render(request, "auctions/page.html", {"listing":listing})
@@ -134,12 +139,20 @@ def deleteListing_view(request, listingID):
         Listing.objects.get(pk=listingID).delete()
     return HttpResponseRedirect(reverse("auctions:profile"))
 def addComment_view(request,listing_id):
-    ...
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            currentuser = request.user
+            listing  =  Listing.objects.get(pk = listing_id )
+            comment = request.POST["comment"]
+            Comment(post = listing ,placeby = currentuser, comment = comment).save()
+            return HttpResponseRedirect(reverse("auctions:page", kwargs={'listing_id':listing_id}))
+    return HttpResponseRedirect(reverse("auctions:login"))
 def watchlist(request):
-    return render(request, "auctions/watchlist.html")
+    liked = Like.objects.filter(user = request.user)
+    likedlistings = list(map(lambda x : x.post, liked))
+    return render(request, "auctions/watchlist.html" , {"likedlistings":likedlistings})
 def profileView(request):
     listings = Listing.objects.filter(poster= request.user)
-    print(listings)
     return render(request,"auctions/profile.html", {"listings":listings})
 
 def placeBidView(request, listingID):
@@ -153,4 +166,12 @@ def placeBidView(request, listingID):
         return HttpResponseRedirect(reverse("auctions:page", kwargs={'listing_id':listingID }))
     return HttpResponseRedirect(request, "auctions/index.html")
     
+def buy(request,listingID):
+    return render(request, "auctions/buy.html")
+
+def deleteComment_view(request,listingID,commentID):
+    Comment.objects.get(pk = commentID).delete()
+    return HttpResponseRedirect(reverse("auctions:page", kwargs={'listing_id':listingID}))
+
+
 

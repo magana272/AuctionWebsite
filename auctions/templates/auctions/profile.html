@@ -22,17 +22,14 @@
                     <li class= "list-group-item"> Created on: {{listing.date}}</li>
                 </ul>
             </div>
-            <div class = "col">
-                    <form>
-                        <input type = "submit" class = "btn btn-danger" value="Edit"> 
-                    </form>
-            </div>
+            {% if request.user == comment.postby%}
             <div class = "col-1">
                 <form action = "{% url 'auctions:deleteListing' listing.id %}" method = "Delete">
                     {% csrf_token %}
                     <input type = "submit" class = "btn btn-danger" value="Delete"> 
                 </form>   
-            </div>            
+            </div>
+            {% endif %}            
             </div>
         </div>
     </div>

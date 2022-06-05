@@ -22,35 +22,69 @@
 
             <div class="row">
                 <div class="col justify-content-center">
-                    <h2>Highest Bid: {% if higestbid %} {{highestbid}}{% else %} No Current Bids{% endif %}
+                    <h2>Highest Bid:
+                            {% if highestbid %}
+                                {{highestbid}} 
+                            {% else %} 
+                            No Current Bids
+                            {% endif %}
                     </h2>
                 </div>
                 <div class="col">
-                <label for="curreny">Bid</label>
-                <form action = "{% url 'auctions:placeBid' listing.id %}" method = 'POST'>
-                    {% csrf_token %}
+                    <label for="curreny">Bid</label>
+                    <form action = "{% url 'auctions:placeBid' listing.id %}" method = 'POST'>
+                        {% csrf_token %}
                         <input type="number" min="0" max = "{{listing.price}}" name = "bid" required>
                         <input type="Submit" class="btn-danger" value = "Place Bid">
-                 </form>
+                    </form>
+                </div>
+                 <div class="col">
+                    <label for="curreny">Buy for asking price</label>
+                    <form action = "{% url 'auctions:buy' listing.id %}" method = 'POST'>
+                         {% csrf_token %}
+                        <input type="Submit" class="btn-danger" value = "Buy">
+                    </form>
+                </div>
             </div>
         </div>
 </div>
 {% endif %}
 <div class ="container-flex">
             <div class="form-group">
-                <form   action = "{%url 'auctions:unlike' listing.id%}" method = "POST">
+                <form   action = "{%url 'auctions:comment' listing.id%}" method = "POST">
                     {% csrf_token %}
                  <textarea  class="form-control" name = "comment" rows="3" cols="100" placeholder = "Commment"> </textarea>
-                <input type="submit" name = {{listing}} value = "Submit">
+                <input type="submit" value = "Submit">
                 </form>
             </div>
 {% comment %}  {% endcomment %}
-    {% if commments %}
+    {% if comments %}
         {% for comment in comments%}
-         <div class = "row">
+        <div class = "container">
+            <div class = "row">
                 <div class = "col">
-                    <comment>
+                    <h3>{{comment.placeby.username}}</h3>
                 </div>
+                <div class = "col-2">
+                    <p>{{comment.time}}</p>
+  
+                </div>
+            </div>
+            <div class = "row">
+                <p>{{comment.comment}}</p>
+            </div> 
+            {% if request.user.username == comment.placeby.username %}
+            <div class = "row">
+                <form  action = "{%url 'auctions:dcomment' listingID=listing.id commentID=comment.id %}" method = "delete">
+                    {% csrf_token %}
+                <input type="submit" value = "Delete">
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+            <hr/>
+
         {% endfor %}
     {% else %}
     <div class = "row">
