@@ -100,10 +100,8 @@ def unlike_view(request, listing_id):
         listing_finder = Listing.objects.get(pk=listing_id)
         try : 
             like_exist = Like.objects.get(user = request.user, post = Listing.objects.get(pk=listing_id))
-            print(like_exist)
         except:
             like_exist = None
-        print(like_exist)
         if like_exist is not None:
             print("we made it here")
             listing_finder = Listing.objects.get(pk=listing_id)
@@ -132,7 +130,6 @@ def addListing_view(request):
         return render(request, "auctions/index.html")
     return render(request, "auctions/addlisting.html", {"cats": cats})
 def deleteListing_view(request, listingID):
-    print(Listing.objects.all())
     if Listing.objects.get(pk=listingID):
         Listing.objects.get(pk=listingID).delete()
     return HttpResponseRedirect(reverse("auctions:profile"))
@@ -155,7 +152,6 @@ def profileView(request):
 
 def placeBidView(request, listingID):
     if request.user.is_authenticated:
-        print(request.POST)
         bidValue = request.POST["bid"]
         if Listing.objects.get(pk=listingID):
                 listing = Listing.objects.get(pk=listingID)
