@@ -114,7 +114,7 @@ def page_view(request,listing_id):
     try: 
         comments = Comment.objects.filter(post=listing)
     except :
-        comments = "No commentssss"        
+        comments = "No comments"        
     return render(request, "auctions/page.html", {"listing":listing, "highestbid":highestbid, "comments":comments})
 
 
