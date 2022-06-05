@@ -103,7 +103,6 @@ def unlike_view(request, listing_id):
         except:
             like_exist = None
         if like_exist is not None:
-            print("we made it here")
             listing_finder = Listing.objects.get(pk=listing_id)
             listing_finder.likes -=1
             listing_finder.save()
@@ -127,7 +126,7 @@ def addListing_view(request):
     if request.method  == "POST":
         new_ = Listing(itemName = request.POST["itemName"], catagory = request.POST["Catagory"], price = request.POST["cost"], image = request.FILES["image"], description = request.POST["description"], poster = User.objects.get(pk=request.user.id))
         new_.save()
-        return render(request, "auctions/index.html")
+        return render(request, "auctions/addlisting.html",{"cats": cats})
     return render(request, "auctions/addlisting.html", {"cats": cats})
 def deleteListing_view(request, listingID):
     if Listing.objects.get(pk=listingID):
