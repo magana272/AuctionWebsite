@@ -3,9 +3,9 @@ Technologies and languages: Python, Heroku, HTML, CSS, Bootstrap 4
 
 
 I learned: I learned about how to store images. I practiced creating a schema. I learned about configuring a Heroku App.
-I learned more about Bootstrap 4. I utilized container. I utilized POST, DELETE, GET requets. 
+I learned more about Bootstrap 4. I utilized bootstrap containers. I utilized POST, DELETE, GET requets. 
 
-User can add listings, place bids, delete their own listings, they can also comment on other people listings. Users can additionly like posts. These are saved and users can view all of their liked posts.
+User can add listings, place bids, delete their own listings, they can also comment on other people listings. Users can additionly like posts. These are saved and users can view all of their liked posts. They can also filter their search based on the item catagory.
  
  
  This initally start out as a project to replicate Ebay. However, I took inspiration from
