@@ -39,7 +39,7 @@
                         <input type="Submit" class="btn-danger" value = "Place Bid">
                     </form>
                     {% else %}
-                    <form action = "{% url 'auctions:login' %}" method = 'POST'>
+                    <form action = "{% url 'auctions:login' %}">
                         {% csrf_token %}
                         <input type="number" min="0" max = "{{listing.price}}" name = "bid" required>
                         <input type="Submit" class="btn-danger" value = "Place Bid">
