@@ -32,11 +32,20 @@
                 </div>
                 <div class="col">
                     <label for="curreny">Bid</label>
+                    {% if request.user.is_authenticated %}
                     <form action = "{% url 'auctions:placeBid' listing.id %}" method = 'POST'>
                         {% csrf_token %}
                         <input type="number" min="0" max = "{{listing.price}}" name = "bid" required>
                         <input type="Submit" class="btn-danger" value = "Place Bid">
                     </form>
+                    {% else %}
+                    <form action = "{% url 'auctions:login' %}" method = 'POST'>
+                        {% csrf_token %}
+                        <input type="number" min="0" max = "{{listing.price}}" name = "bid" required>
+                        <input type="Submit" class="btn-danger" value = "Place Bid">
+                    </form>
+                    {% endif %}
+                
                 </div>
                  <div class="col">
                     <label for="curreny">Buy for asking price</label>
