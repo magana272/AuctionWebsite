@@ -1,5 +1,5 @@
 # FA(ke)Website
-Technologies and languages: Python, Heroku, HTML, CSS, Bootstrap 4
+Technologies and languages: Python, Heroku, HTML, CSS, Bootstrap 4, SQL
 
 
 I learned: I learned about how to store images. I practiced creating a schema. I learned about configuring a Heroku App.
