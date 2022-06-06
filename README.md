@@ -21,3 +21,13 @@ Take a look :
 
 https://fa-ke-website.herokuapp.com
 
+...
+Just kidding ... I realaized uploaded files don't persist(Heroku is containerized... The file system doesn't persist after the container finishes execution). 
+Possible solutions:
+
+1) Will utilize Amazon S3 to save files uploaded.
+2) This can be sort of a "testing site". Clear item database once finishing...?
+
+I think I'll try solution 1.
+
+
